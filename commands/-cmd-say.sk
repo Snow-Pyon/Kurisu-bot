@@ -1,0 +1,4 @@
+evt "kurisu say":
+  
+  broadcast "test"
+  replyWith("%custom event's args%")

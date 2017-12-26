@@ -1,0 +1,16 @@
+function replyWith(message: text):
+
+	send message {_message} to channel "%{kurisu::last-channel}%" as "Kurisu"
+
+
+function url(url: text) :: text:
+
+  replace all "§" with "&" in {_url}
+  return {_url}
+
+
+function toggleScript(directory: text, enable: boolean = true):
+
+  set {_file} to new {File}({_directory})
+  {SkriptCommand}.toggleScripts({_file} and {_enable})
+  {ScriptLoader}.loadScripts({ScriptLoader}.loadStructure({_file}));

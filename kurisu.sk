@@ -1,0 +1,63 @@
+options:
+
+  cmd-prefix: ku!
+  bot-tag: @Kurisu
+
+  token: 
+
+
+
+on script load:
+
+  set {kurisu::patterns::command} to {Pattern}.compile("(?:{@cmd-prefix}|{@bot-tag})\s+([\w\S]+)(\s+[\s\S]+)?")
+
+  # Commands
+  set {kurisu::commands::play} to {Pattern}.compile("p(lay)?")
+  set {kurisu::commands::say} to {Pattern}.compile("(say|reply)")
+  loadCommands()
+
+  if bot "Kurisu" is logged in:
+    stop
+  login to user with token "{@token}" with name "Kurisu"
+
+
+on guild message receive seen by "Kurisu":
+
+
+  set {_matcher} to {kurisu::patterns::command}.matcher(event-string)
+
+  if {_matcher}.matches():
+
+    set {_command} to {_matcher}.group(1)
+    set {_arguments::*} to regex split {_matcher}.group(2) using "\s"
+    remove {_arguments::1} from {_arguments::*}
+    set {kurisu::last-channel} to event-channel
+    loop {kurisu::commands::*}:
+
+      set {_cmd-matcher} to loop-value.matcher({_command}) 
+      if {_cmd-matcher}.matches():
+
+        call custom event "kurisu %loop-index%" to details event-string, event-channel, event-user and event-guild arguments {_arguments::*}
+        stop
+
+
+
+function loadCommands():
+  
+  if {kurisu::commands-loaded} isn't set:
+    set {_directory} to "plugins/Skript/scripts/Kurisu-bot/commands"
+    toggleScript({_directory})
+    broadcast "<yellow>Successfully loaded commands!"
+    set {kurisu::commands-loaded} to true
+
+
+function unloadCommands():
+
+  if {kurisu::commands-loaded} is set:
+    set {_directory} to "plugins/Skript/scripts/Kurisu-bot/commands"
+    toggleScript({_directory}, false)
+    broadcast "<yellow>Successfully unloaded commands!"
+
+on skript unload:
+
+  unloadCommands()
