@@ -3,9 +3,9 @@ An example discord bot made with Skript and Vixio.
 
 ## Dependencies
 
- * Vixio 1.1.5
- * skript-mirror 0.7.1
- * Skript
+ * [Vixio](http://vixio.space/download/)
+ * [skript-mirror](https://github.com/btk5h/skript-mirror/releases)
+ * [Skript](https://github.com/bensku/Skript/releases)
 
 ## Commands
 
