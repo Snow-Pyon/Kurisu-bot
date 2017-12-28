@@ -1,4 +1,6 @@
 evt "kurisu say":
   
-  broadcast "test"
-  replyWith("%custom event's args%")
+  set {_message} to ""
+  loop custom event's args:
+    set {_message} to "%{_message}% %loop-value%"
+  replyWith({_message})
