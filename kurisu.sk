@@ -9,17 +9,20 @@ options:
 
 on script load:
 
-  set {kurisu::patterns::command} to {Pattern}.compile("(?:{@cmd-prefix}|{@bot-tag})\s+([\w\S]+)(\s+[\s\S]+)?")
+  set {kurisu::patterns::command} to {Pattern}.compile("(?:{@cmd-prefix}\s*|{@bot-tag}\s+)([\w\S]+)(\s+[\s\S]+)?")
 
   # Commands
   set {kurisu::commands::play} to {Pattern}.compile("p(lay)?")
   set {kurisu::commands::say} to {Pattern}.compile("(say|reply)")
-  loadCommands()
 
   if bot "Kurisu" is logged in:
     stop
   login to user with token "{@token}" with name "Kurisu"
+  load commands
 
+on script load:
+
+  unload commands
 
 on guild message receive seen by "Kurisu":
 
@@ -41,23 +44,3 @@ on guild message receive seen by "Kurisu":
         stop
 
 
-
-function loadCommands():
-  
-  if {kurisu::commands-loaded} isn't set:
-    set {_directory} to "plugins/Skript/scripts/Kurisu-bot/commands"
-    toggleScript({_directory})
-    broadcast "<yellow>Successfully loaded commands!"
-    set {kurisu::commands-loaded} to true
-
-
-function unloadCommands():
-
-  if {kurisu::commands-loaded} is set:
-    set {_directory} to "plugins/Skript/scripts/Kurisu-bot/commands"
-    toggleScript({_directory}, false)
-    broadcast "<yellow>Successfully unloaded commands!"
-
-on skript unload:
-
-  unloadCommands()

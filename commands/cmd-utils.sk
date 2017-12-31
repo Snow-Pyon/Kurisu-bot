@@ -1,0 +1,14 @@
+effect (0¦unload|1¦load) command[s] [%-strings%] [from %-string%]:
+
+  set {_folder} to expression-1 or else "plugins/Skript/scripts/Kurisu-bot/commands"
+  set {_files::*} to ...new {File}({_folder}).listFiles()
+
+  loop {_files::*}:
+
+    set {_name} to loop-value.getName()
+    if expressions-1 or else {_name} contains {_name}:
+      set {_name} to "-%{_name}%" if parser mark == 1 else subtext of {_name} from 2 to {_name}'s length
+      loop-value.renameTo(new {File}("%{_folder}%/%{_name}%.sk");
+
+  if parser mark is 1:
+    {ScriptLoader}.loadScripts({ScriptLoader}.loadStructures({_files::*}));

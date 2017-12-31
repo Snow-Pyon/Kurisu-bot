@@ -1,16 +1,49 @@
-function replyWith(message: text):
+on script load:
 
-	send message {_message} to channel "%{kurisu::last-channel}%" as "Kurisu"
-
-
-function url(url: text) :: text:
-
-  replace all "§" with "&" in {_url}
-  return {_url}
+  import "ch.njol.skript.lang.Condition"
+  import "ch.njol.skript.variables.Variables"
 
 
-function toggleScript(directory: text, enable: boolean = true):
 
-  set {_file} to new {File}({_directory})
-  {SkriptCommand}.toggleScripts({_file} and {_enable})
-  {ScriptLoader}.loadScripts({ScriptLoader}.loadStructure({_file}));
+effect reply %strings%:
+
+  send message (join expressions-1 by system property line separator) to channel "%{kurisu::last-channel}%" as "Kurisu"
+
+
+get expression url %$strings%:
+
+  set {_output::*} to expressions-1
+
+  loop {_output::*}:
+    replace all "§" with "&" in {_output::%loop-index%}
+
+  continue {_output::*}
+
+get expression %$objects% (or else|?:) %$objects%:
+
+  if expressions-1 isn't set:
+    continue expressions-2
+  else:
+    continue expressions-1
+
+
+get expression %$objects% if %$booleans% (or|else) %$objects%:
+  
+  if expressions-2 are true:
+    continue expressions-1
+  else:
+    continue expressions-3
+
+get expression %booleans% ? %objects% : %objects%:
+  
+  if expressions-1 are true:
+    continue expressions-2
+  else:
+    continue expressions-3
+
+get expression whether <(.+)>.:
+
+  set {_args::*} to regex-1 and "Invalid condition"
+  set {_condition} to {Condition}.parse({_args::*})
+
+  continue {_condition}.check(event)
