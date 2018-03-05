@@ -1,9 +1,0 @@
-evt "kurisu say":
-  
-  set {_message} to ""
-  loop custom event's args:
-    set {_message} to "%{_message}% %loop-value%"
-  if {_message} is " Can you imagine an imaginary menagerie manager imagining managing an imaginary menagerie?":
-    reply "Can mew imyagine an imyaginyary mewnyagerie mewnyager imyagining mewnyaging an imyaginyary mewnyagerie?﻿"
-    stop
-  reply {_message}

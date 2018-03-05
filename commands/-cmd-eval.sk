@@ -1,0 +1,20 @@
+on script load:
+
+  register pattern with id "evaluation" using regex "(?:`{1,3})?(.+)(?:`{1,3})?"
+
+
+evt "kurisu eval":
+
+  broadcast "test"
+
+  set {_args::*} to custom event's args
+  set {_pre-evaluation-code} to join {_args::*} by "%new line%"
+  
+  if {_pre-evaluation-code} matches pattern "evaluation":
+    
+    set {_evaluation-code} to group 1 of last regex match
+    evaluate logging errors in {_evaluation-errors::*}: {_evaluation-code}
+
+# TODO: error logging
+#		if {_evaluation-errors::*} exists:
+#			set {_evaluation-errors::*} to prettifyErrors({_evaluation-errors::*})

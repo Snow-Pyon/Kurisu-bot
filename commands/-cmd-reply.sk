@@ -1,0 +1,5 @@
+evt "kurisu reply":
+  
+  set {_args::*} to custom event's args
+  set {_message} to join {_args::*} by " "
+  reply with {_message}

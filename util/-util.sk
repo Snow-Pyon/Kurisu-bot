@@ -1,0 +1,27 @@
+on script load:
+
+  import "java.lang.System"
+
+
+get expression (nl|new line):
+  
+  return {System}.getProperty("line.separator")
+
+
+
+condition %string% [(1¦does(n't| not))] (start[s]|2¦end[s]) with %string%:
+  
+  if parser mark is 2:
+
+    if expression-1.endsWith(expression-2):
+      return
+    else:
+      parser mark is 1
+      return
+  else:
+
+    if expression-1.startsWith(expression-2):
+      return
+    else:
+      parser mark is 1
+      return
