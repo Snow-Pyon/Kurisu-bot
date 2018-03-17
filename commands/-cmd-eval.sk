@@ -1,18 +1,19 @@
 on script load:
 
-  register pattern with id "evaluation" using regex "(?:`{1,3})?(.+)(?:`{1,3})?"
+  register pattern with id "command.eval" using regex "eval(?:uate)?"
+  register pattern with id "evaluation" using regex "(?m)(?:`{1,3})?(.+)(?:`{1,3})?"
 
 
 evt "kurisu eval":
 
-  broadcast "test"
-
   set {_args::*} to custom event's args
-  set {_pre-evaluation-code} to join {_args::*} by "%new line%"
-  
-  if {_pre-evaluation-code} matches pattern "evaluation":
+  set {_pre-evaluation-code} to join {_args::*} by " "
+
+  broadcast "%{_pre-evaluation-code}%"
+  if {_pre-evaluation-code} matching pattern "evaluation":
     
     set {_evaluation-code} to group 1 of last regex match
+    broadcast "%{_evaluation-code}%"
     evaluate logging errors in {_evaluation-errors::*}: {_evaluation-code}
 
 # TODO: error logging

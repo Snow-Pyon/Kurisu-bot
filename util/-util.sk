@@ -5,7 +5,8 @@ on script load:
 
 get expression (nl|new line):
   
-  return {System}.getProperty("line.separator")
+  set {_return} to {System}.getProperty("line.separator")
+  return {_return}
 
 
 
@@ -25,3 +26,9 @@ condition %string% [(1¦does(n't| not))] (start[s]|2¦end[s]) with %string%:
     else:
       parser mark is 1
       return
+
+effect (shutdown|log off|kill) [(kurisu|[the] bot)] [%bot%]:
+  
+  delay the effect
+  expression-1.getJDA().shutdown();
+  return

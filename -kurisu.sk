@@ -5,35 +5,29 @@ options:
   cmd-prefix: ku!
   bot-tag: @Kurisu
 
-  token: MjgyMTY2MDMzNzQ0Mzk2Mjg4.DTRiBg.-f694Xi-Qx2MzGTeBC1LNNHICk4
+  token: MjgyMTY2MDMzNzQ0Mzk2Mjg4.DX-TXA.Do4n84noKiKR7RLRbc3oYOK__is
 
 
 on script load:
 
   register pattern with id "command" using regex "(?:{@cmd-prefix}\s*|{@bot-tag}\s+)([\w\S]+)\s+([\s\S]+)?"
 
-  # Commands
-  register pattern with id "command.say" using regex "(say|reply)"
-  register pattern with id "command.eval" using regex "eval(?:uation)?"
-
   login to "{@token}" using the name "Kurisu"
 
 
-# TODO: Resolve conflicts with TuSKe
 on guild message received:
 
-  if event-string matches pattern "command":
+  if event-string matching pattern "command":
   
     set {_command} to group 1 from last regex match
     set {_arguments::*} to regex split group 2 from last regex match using "\s"
 
-    loop {kurisu-bot::pattern::command::*}:
+    loop {kurisu-bot::regex::pattern::command::*}:
 
-      broadcast "%{_command}% - %{_arguments::*}%"
-      if {_command} matches loop-value:
+      if {_command} matching loop-value:
 
-        broadcast ""
-        call custom event "kurisu %loop-index%" to details event-string, event-bot, event-channel, event-user and event-guild arguments {_arguments::*}
-        log "[Kurisu-bot] [%now%] %event-user% executed command '%event-string%' (channel %event-channel%) in guild %event-guild%" to "Kurisu.log"
+        broadcast "test"
+
+        call custom event "kurisu %loop-index%" to details event-bot, event-channel, event-user and event-guild arguments {_arguments::*}
+        log "[Kurisu-bot] [%now%] %event-user% (%id of event-user%) executed command '%event-string%' (%id of event-message%) in the channel %event-channel% (%id of event-channel%) at the guild %event-guild% (%id of event-guild%)" to "Kurisu.log"
         exit loop
-

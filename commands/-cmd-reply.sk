@@ -1,5 +1,10 @@
+on script load:
+
+  register pattern with id "command.reply" using regex "(say|reply)"
+
 evt "kurisu reply":
   
   set {_args::*} to custom event's args
   set {_message} to join {_args::*} by " "
-  reply with {_message}
+  broadcast "%event-bot%"
+  reply with "%{_message}%"
