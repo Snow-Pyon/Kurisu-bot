@@ -14,6 +14,9 @@ An example discord bot made with Skript and Vixio.
 Command | Aliases | Description 
 ------------ | ------------- | -------------
 say | reply | Makes Kurisu reply with the specified message
+evaluate | eval | Evaluates the given message in Kurisu's server
+stop | shutdown | Stops the current session and the server itself.
+restart | - | Restarts commands and the current session.
 
 ## Current plans
 
